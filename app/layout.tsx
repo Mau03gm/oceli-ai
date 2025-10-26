@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   keywords:
     "desarrollo de software, AI, inteligencia artificial, software factory, desarrollo web, aplicaciones empresariales, transformación digital",
   authors: [{ name: "Oceli" }],
+  icons: {
+    icon: '/logo.jpeg',
+  },
   openGraph: {
     title: "Oceli - Fábrica de Software Impulsada con AI",
     description: "Transformamos tu negocio con soluciones de software inteligentes.",
