@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +26,10 @@ export function Header() {
     }
   }
 
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -32,7 +38,7 @@ export function Header() {
     >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Oceli</h1>
           </div>
 
@@ -57,6 +63,15 @@ export function Header() {
               Contacto
             </button>
             <Button
+              onClick={toggleTheme}
+              variant="ghost"
+              size="icon"
+              aria-label="Toggle theme"
+              className="rounded-full"
+            >
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+            </Button>
+            <Button
               onClick={() => scrollToSection("contacto")}
               className="bg-accent text-accent-foreground hover:bg-accent/90"
             >
@@ -65,13 +80,24 @@ export function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-foreground"
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="md:hidden flex items-center gap-2">
+            <Button
+              onClick={toggleTheme}
+              variant="ghost"
+              size="icon"
+              aria-label="Toggle theme"
+              className="rounded-full"
+            >
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+            </Button>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 text-foreground"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -96,6 +122,21 @@ export function Header() {
               >
                 Contacto
               </button>
+              <Button
+                onClick={toggleTheme}
+                variant="ghost"
+                className="w-full justify-start"
+              >
+                {theme === "dark" ? (
+                  <>
+                    <Sun size={20} className="mr-2" /> Modo Claro
+                  </>
+                ) : (
+                  <>
+                    <Moon size={20} className="mr-2" /> Modo Oscuro
+                  </>
+                )}
+              </Button>
               <Button
                 onClick={() => scrollToSection("contacto")}
                 className="bg-accent text-accent-foreground hover:bg-accent/90 w-full"

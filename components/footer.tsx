@@ -57,8 +57,8 @@ export function Footer() {
             <h4 className="font-bold text-foreground mb-4">{"Contacto"}</h4>
             <ul className="space-y-2 text-muted-foreground">
               <li>
-                <a href="mailto:contacto@oceli.com" className="hover:text-accent transition-colors">
-                  {"contacto@oceli.com"}
+                <a href="mailto:gomez.oceli@gmail.com" className="hover:text-accent transition-colors">
+                  {"gomez.oceli@gmail.com"}
                 </a>
               </li>
               <li>

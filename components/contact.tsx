@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Mail, Phone, MapPin, Send } from "lucide-react"
+import { toast } from "sonner"
 
 export function Contact() {
   const [isVisible, setIsVisible] = useState(false)
@@ -41,15 +42,33 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitStatus("idle")
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const response = await fetch("/api/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ firstName: formData.name, company: formData.company, email: formData.email, message: formData.message }),
+      });
 
-    setSubmitStatus("success")
-    setIsSubmitting(false)
-    setFormData({ name: "", email: "", company: "", message: "" })
-
-    setTimeout(() => setSubmitStatus("idle"), 5000)
+      if (response.ok) {
+        setSubmitStatus("success");
+        setFormData({ name: "", email: "", company: "", message: "" });
+        toast.success("Mensaje enviado correctamente")
+      } else {
+        setSubmitStatus("error");
+        toast.error("Error al enviar el mensaje")
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      setSubmitStatus("error");
+      toast.error("Error al enviar el mensaje")
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus("idle"), 5000);
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -88,22 +107,22 @@ export function Contact() {
                 <h3 className="text-2xl font-bold text-foreground mb-6">{"Información de contacto"}</h3>
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
                       <Mail className="w-5 h-5 text-accent" />
                     </div>
                     <div>
                       <div className="font-medium text-foreground mb-1">{"Email"}</div>
                       <a
-                        href="mailto:gomez.mauricio.mx@gmail.com"
+                        href="mailto:gomez.oceli@gmail.com"
                         className="text-muted-foreground hover:text-accent transition-colors"
                       >
-                        {"gomez.mauricio.mx@gmail.com"}
+                        {"gomez.oceli@gmail.com"}
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
                       <Phone className="w-5 h-5 text-accent" />
                     </div>
                     <div>
@@ -115,7 +134,7 @@ export function Contact() {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
                       <MapPin className="w-5 h-5 text-accent" />
                     </div>
                     <div>
