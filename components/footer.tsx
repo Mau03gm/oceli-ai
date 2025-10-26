@@ -62,8 +62,8 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="tel:+525512345678" className="hover:text-accent transition-colors">
-                  {"+52 55 1234 5678"}
+                <a href="tel:+522712098996" className="hover:text-accent transition-colors">
+                  {"+52 271 209 8996"}
                 </a>
               </li>
               <li>{"Ciudad de México, México"}</li>
