@@ -1,9 +1,17 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { ShoppingCart, Users, BarChart3, Smartphone, Globe, Briefcase } from "lucide-react"
+import { ShoppingCart, Users, BarChart3, MessageCircle, Globe, Briefcase } from "lucide-react"
 
 const useCases = [
+  {
+    icon: MessageCircle,
+    title: "WhatsApp Inteligente",
+    description:
+      "Atención al cliente 24/7 con empleados AI que responden instantáneamente en WhatsApp, automatizan consultas y mejoran la experiencia del usuario.",
+    benefits: ["Disponibilidad 24/7", "Respuestas instantáneas", "Automatización IA"],
+    link: "https://whatsapp-inteligente.vercel.app/",
+  },
   {
     icon: ShoppingCart,
     title: "E-commerce",
@@ -22,12 +30,6 @@ const useCases = [
     title: "Business Intelligence",
     description: "Dashboards interactivos con análisis predictivo y visualización de datos en tiempo real.",
     benefits: ["Decisiones data-driven", "Predicciones precisas", "ROI medible"],
-  },
-  {
-    icon: Smartphone,
-    title: "Apps Móviles",
-    description: "Aplicaciones nativas y multiplataforma con funcionalidades inteligentes y UX excepcional.",
-    benefits: ["Engagement +50%", "Multiplataforma", "Offline-first"],
   },
   {
     icon: Globe,
@@ -88,31 +90,41 @@ export function UseCases() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {useCases.map((useCase, index) => (
-            <div
-              key={index}
-              className={`bg-card border border-border rounded-2xl p-6 sm:p-8 hover:border-accent/50 transition-all duration-300 hover:shadow-xl group ${
-                isVisible ? "animate-scale-in" : "opacity-0"
-              }`}
-              style={{ animationDelay: `${index * 0.1 + 0.4}s` }}
-            >
-              <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
-                <useCase.icon className="w-7 h-7 text-accent" />
+          {useCases.map((useCase, index) => {
+            const CardContent = (
+              <div
+                key={index} // Added key property
+                className={`bg-card border border-border rounded-2xl p-6 sm:p-8 hover:border-accent/50 transition-all duration-300 hover:shadow-xl group ${
+                  isVisible ? "animate-scale-in" : "opacity-0"
+                } ${useCase.link ? "cursor-pointer" : ""}`}
+                style={{ animationDelay: `${index * 0.1 + 0.4}s` }}
+              >
+                <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
+                  <useCase.icon className="w-7 h-7 text-accent" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">{useCase.title}</h3>
+                <p className="text-muted-foreground leading-relaxed mb-6">{useCase.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {useCase.benefits.map((benefit, i) => (
+                    <span
+                      key={i}
+                      className="text-xs font-medium px-3 py-1 rounded-full bg-secondary text-foreground border border-border"
+                    >
+                      {benefit}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-3">{useCase.title}</h3>
-              <p className="text-muted-foreground leading-relaxed mb-6">{useCase.description}</p>
-              <div className="flex flex-wrap gap-2">
-                {useCase.benefits.map((benefit, i) => (
-                  <span
-                    key={i}
-                    className="text-xs font-medium px-3 py-1 rounded-full bg-secondary text-foreground border border-border"
-                  >
-                    {benefit}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
+            )
+
+            return useCase.link ? (
+              <a key={index} href={useCase.link} target="_blank" rel="noopener noreferrer" className="block">
+                {CardContent}
+              </a>
+            ) : (
+              <div key={index}>{CardContent}</div>
+            )
+          })}
         </div>
       </div>
     </section>
